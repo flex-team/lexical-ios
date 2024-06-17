@@ -65,9 +65,16 @@ enum AttributeUtils {
 
     if let italic = combinedAttributes[.italic] as? Bool {
       if italic {
-        symbolicTraits = symbolicTraits.union([.traitItalic])
+        fontDescriptor = fontDescriptor.withMatrix(.init(
+          a: 1,
+          b: 0,
+          c: CGFloat(tanf(12 * .pi / 180)),
+          d: 1,
+          tx: 0,
+          ty: 0
+        ))
       } else {
-        symbolicTraits = symbolicTraits.remove(.traitItalic) ?? symbolicTraits
+        fontDescriptor = fontDescriptor.withMatrix(.identity)
       }
     }
 
