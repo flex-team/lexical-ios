@@ -374,8 +374,11 @@ public extension LexicalViewDelegate {
 
   override public func layoutSubviews() {
     super.layoutSubviews()
-
-    textView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
+    
+    let newFrame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
+    if textView.frame != newFrame {
+      textView.frame = newFrame
+    }
   }
 
   /// Convenience method to clear editor and show placeholder text
