@@ -21,6 +21,7 @@ extension NodeType {
 public class ListNode: ElementNode {
   enum CodingKeys: String, CodingKey {
     case listType
+    case start
   }
   
   private var listType: ListType = .bullet
@@ -44,6 +45,8 @@ public class ListNode: ElementNode {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.listType = try container.decode(ListType.self, forKey: .listType)
     try super.init(from: decoder)
+
+    self.start = try container.decodeIfPresent(Int.self, forKey: .start) ?? 1
   }
   override public class func getType() -> NodeType {
     return .list
