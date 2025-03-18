@@ -66,7 +66,8 @@ open class ElementNode: Node {
     }
 
     self.direction = try container.decodeIfPresent(Direction.self, forKey: .direction)
-    self.indent = try container.decodeIfPresent(Int.self, forKey: .indent) ?? 0
+    let indentFloat: Float = try container.decodeIfPresent(Float.self, forKey: .indent) ?? .zero
+    self.indent = Int(ceil(indentFloat))
     try super.init(from: decoder)
 
     for node in childNodes {
