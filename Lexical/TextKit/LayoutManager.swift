@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class LayoutManager: NSLayoutManager {
+public class LayoutManager: NSLayoutManager, @unchecked Sendable {
   internal weak var editor: Editor? {
     get {
       if let textStorage = textStorage as? TextStorage {
@@ -44,8 +44,9 @@ public class LayoutManager: NSLayoutManager {
 
   private func drawCustomTruncationIfNeeded(forGlyphRange drawingGlyphRange: NSRange, at origin: CGPoint) {
     guard let readOnlySizeCache,
-          let customTruncationRect = readOnlySizeCache.customTruncationRect,
-          let string = readOnlySizeCache.customTruncationString else { return }
+      let customTruncationRect = readOnlySizeCache.customTruncationRect,
+      let string = readOnlySizeCache.customTruncationString
+    else { return }
 
     let modifiedDrawingRect = customTruncationRect.offsetBy(dx: origin.x, dy: origin.y)
 
@@ -96,7 +97,8 @@ public class LayoutManager: NSLayoutManager {
           let glyphRangeForParagraphs = self.glyphRange(forCharacterRange: paraGroupRange, actualCharacterRange: nil)
           let firstCharLineFragment = self.lineFragmentRect(forGlyphAt: glyphRangeForParagraphs.location, effectiveRange: nil)
 
-          let lastCharLineFragment = (paraGroupRange.upperBound == textStorage.length && self.extraLineFragmentRect.height > 0)
+          let lastCharLineFragment =
+            (paraGroupRange.upperBound == textStorage.length && self.extraLineFragmentRect.height > 0)
             ? self.extraLineFragmentRect
             : self.lineFragmentRect(forGlyphAt: glyphRangeForParagraphs.upperBound - 1, effectiveRange: nil)
 
