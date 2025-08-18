@@ -238,7 +238,7 @@ open class TextNode: Node {
     try container.encode(self.style, forKey: .style)
   }
 
-  override public func getTextPart() -> String {
+  open override func getTextPart() -> String {
     return getLatest().text
   }
 
