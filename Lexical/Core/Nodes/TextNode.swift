@@ -219,7 +219,7 @@ open class TextNode: Node {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     try super.init(from: decoder)
 
-    self.text = try container.decode(String.self, forKey: .text)
+    self.text = try container.decodeIfPresent(String.self, forKey: .text) ?? ""
     self.mode = try container.decode(Mode.self, forKey: .mode)
     let serializedFormat = try container.decode(SerializedTextFormat.self, forKey: .format)
     self.format = SerializedTextFormat.convertToTextFormat(from: serializedFormat)
@@ -238,7 +238,7 @@ open class TextNode: Node {
     try container.encode(self.style, forKey: .style)
   }
 
-  override public func getTextPart() -> String {
+  open override func getTextPart() -> String {
     return getLatest().text
   }
 
