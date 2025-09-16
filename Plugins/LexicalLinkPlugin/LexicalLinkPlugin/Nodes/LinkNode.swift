@@ -79,8 +79,22 @@ open class LinkNode: ElementNode {
       return [:]
     }
 
+    // Create a valid URL from the string, and only set the link attribute if valid
     var attribs: [NSAttributedString.Key: Any] = theme.link ?? [:]
-    attribs[.link] = url
+
+    // Check if URL has a scheme, if not, prepend "https://"
+    var urlString = url
+    if !urlString.contains("://") && !urlString.hasPrefix("mailto:") {
+      urlString = "https://" + urlString
+    }
+
+    if let validURL = URL(string: urlString) {
+      attribs[.link] = validURL
+    } else {
+      // If URL cannot be created, use text styling without making it a link
+      // to prevent potential crashes
+    }
+
     return attribs
   }
 
