@@ -453,4 +453,9 @@ private class TextViewDelegate: NSObject, UITextViewDelegate {
 
     return textView.lexicalDelegate?.textView(textView, shouldInteractWith: URL, in: characterRange, interaction: interaction) ?? false
   }
+
+  public func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+    // 빈 구현: 크래시 방지용
+    return false
+  }
 }
